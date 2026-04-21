@@ -4,12 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>লাহিড়ী বহুমুখী উচ্চ বিদ্যালয় • SSC 25</title>
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Supabase JS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    /* ---------- গ্লোবাল স্টাইল (নেভি ব্লু, পিঙ্ক অ্যানিমেশন) ---------- */
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'Arial', sans-serif; }
     body { background: #fef9f9; color: #0a1f44; line-height: 1.6; }
     @keyframes float { 0% { transform: translateY(0); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0); } }
@@ -58,11 +55,10 @@
 </head>
 <body>
 
-<!-- নেভিগেশন বার -->
 <nav class="navbar">
   <div class="logo">
-    <!-- লোগো ইমেজ ব্যবহার করতে চাইলে নিচের div এর পরিবর্তে img দিন -->
-    <img src="https://postimages.org/][img]https://i.postimg.cc/94KQmNqv/Screenshot-2026-04-21-10-13-08-PM.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'" style="width:45px; height:45px; border-radius:12px;">
+    <!-- সঠিক লোগো URL -->
+    <img src="https://i.postimg.cc/94KQmNqv/Screenshot-2026-04-21-10-13-08-PM.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'" style="width:45px; height:45px; border-radius:12px;">
     <div class="logo-icon" style="display:none;">L</div>
     <span class="logo-text">লাহিড়ী স্কুল <span style="color:#ff6b9d;">• SSC 25</span></span>
   </div>
@@ -82,7 +78,6 @@
 </nav>
 
 <main id="app">
-  <!-- হোম পেজ -->
   <div id="home" class="page active">
     <section class="hero">
       <div class="hero-content">
@@ -106,14 +101,10 @@
         <div class="feature-card"><i class="fas fa-bell feature-icon"></i><h3>নোটিফিকেশন</h3><p>ইমেইল ও প্রোফাইলে আপডেট।</p></div>
       </div>
     </section>
-    <!-- শিক্ষকমণ্ডলী -->
     <section style="padding:2rem 5%; background:#fdf3f6;">
       <h2 class="section-title">অনুপ্রেরণার বাতিঘর</h2>
-      <div style="display:flex; flex-wrap:wrap; gap:2rem; justify-content:center;" id="teachersGrid">
-        <!-- এখানে শিক্ষকদের ছবি ও নাম ডায়নামিক্যালি দেখানো হবে -->
-      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:2rem; justify-content:center;" id="teachersGrid"></div>
     </section>
-    <!-- জুনিয়রদের জন্য -->
     <section style="padding:2rem 5%;">
       <h2 class="section-title">জুনিয়রদের জন্য বড় ভাইদের ভালোবাসা</h2>
       <div style="display:flex; gap:2rem; flex-wrap:wrap;">
@@ -122,30 +113,13 @@
       </div>
     </section>
   </div>
-
-  <!-- গ্যালারি পেজ -->
-  <div id="gallery" class="page">
-    <div style="padding:2rem 5%;"><h2 class="section-title">স্মার্ট গ্যালারি</h2><div id="galleryUpload"></div><div id="galleryGrid" class="gallery-grid"></div></div>
-  </div>
-  <!-- ম্যাগাজিন পেজ -->
-  <div id="magazine" class="page">
-    <div style="padding:2rem 5%;"><h2 class="section-title">স্মার্ট ম্যাগাজিন</h2><div id="magazineUpload"></div><div id="magazineGrid" class="magazine-grid"></div></div>
-  </div>
-  <!-- ETA পেজ -->
-  <div id="eta" class="page">
-    <div style="padding:2rem 5%;"><h2 class="section-title">ETA - এক্সট্রা কারিকুলার</h2><div id="etaUpload"></div><div id="etaGrid"></div></div>
-  </div>
-  <!-- প্রোফাইল পেজ -->
-  <div id="profile" class="page">
-    <div style="max-width:800px; margin:2rem auto;"><div class="form-container"><h2>আমার প্রোফাইল</h2><div id="profileInfo"></div><h3>নোটিফিকেশন</h3><div id="notifList"></div></div></div>
-  </div>
-  <!-- অ্যাডমিন প্যানেল -->
-  <div id="admin" class="page">
-    <div style="padding:2rem 5%;"><h2 class="section-title">অ্যাডমিন প্যানেল</h2><div class="admin-tabs"><button class="admin-tab active" data-tab="gallery">গ্যালারি</button><button class="admin-tab" data-tab="magazine">ম্যাগাজিন</button><button class="admin-tab" data-tab="eta">ETA</button><button class="admin-tab" data-tab="email">ইমেইল</button></div><div id="adminContent"></div></div>
-  </div>
+  <div id="gallery" class="page"><div style="padding:2rem 5%;"><h2 class="section-title">স্মার্ট গ্যালারি</h2><div id="galleryUpload"></div><div id="galleryGrid" class="gallery-grid"></div></div></div>
+  <div id="magazine" class="page"><div style="padding:2rem 5%;"><h2 class="section-title">স্মার্ট ম্যাগাজিন</h2><div id="magazineUpload"></div><div id="magazineGrid" class="magazine-grid"></div></div></div>
+  <div id="eta" class="page"><div style="padding:2rem 5%;"><h2 class="section-title">ETA - এক্সট্রা কারিকুলার</h2><div id="etaUpload"></div><div id="etaGrid"></div></div></div>
+  <div id="profile" class="page"><div style="max-width:800px; margin:2rem auto;"><div class="form-container"><h2>আমার প্রোফাইল</h2><div id="profileInfo"></div><h3>নোটিফিকেশন</h3><div id="notifList"></div></div></div></div>
+  <div id="admin" class="page"><div style="padding:2rem 5%;"><h2 class="section-title">অ্যাডমিন প্যানেল</h2><div class="admin-tabs"><button class="admin-tab active" data-tab="gallery">গ্যালারি</button><button class="admin-tab" data-tab="magazine">ম্যাগাজিন</button><button class="admin-tab" data-tab="eta">ETA</button><button class="admin-tab" data-tab="email">ইমেইল</button></div><div id="adminContent"></div></div></div>
 </main>
 
-<!-- অথ মোডাল -->
 <div id="authModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:2000; align-items:center; justify-content:center;">
   <div class="form-container" style="position:relative;">
     <button onclick="closeAuthModal()" style="position:absolute; right:20px; top:20px; background:none; border:none; font-size:1.5rem;">&times;</button>
@@ -164,230 +138,257 @@
 <footer><p>© ২০২৫ লাহিড়ী বহুমুখী উচ্চ বিদ্যালয় • SSC 2025 ব্যাচ</p></footer>
 
 <script>
-  // ---------- Supabase কনফিগারেশন (আপনার তথ্য বসান) ----------
-  const SUPABASE_URL = 'https://ukxvwykngsfxclrzkdht.supabase.co'; // আপনার Supabase URL
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVreHZ3eWtuZ3NmeGNscnprZGh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODIwMzcsImV4cCI6MjA5MjM1ODAzN30.pg4RTSZhQJnawDpiv5bogfnZVUzj20Nv4GfU6fdcKMU'; // আপনার Supabase Anon Key
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  (function() {
+    // Supabase কনফিগ
+    const SUPABASE_URL = 'https://ukxvwykngsfxclrzkdht.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVreHZ3eWtuZ3NmeGNscnprZGh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODIwMzcsImV4cCI6MjA5MjM1ODAzN30.pg4RTSZhQJnawDpiv5bogfnZVUzj20Nv4GfU6fdcKMU';
 
-  // ---------- গ্লোবাল স্টেট ----------
-  let currentUser = null;
-  let currentProfile = null;
+    // সুপাবেস ক্লায়েন্ট তৈরি
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log('✅ Supabase initialized');
 
-  // ---------- UI হেল্পার ----------
-  function navigateTo(pageId) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
-    window.location.hash = pageId;
-    if (pageId === 'gallery') loadGallery();
-    else if (pageId === 'magazine') loadMagazine();
-    else if (pageId === 'eta') loadEta();
-    else if (pageId === 'profile') loadProfile();
-    else if (pageId === 'admin') loadAdminPanel();
-    else if (pageId === 'home') loadTeachers();
-  }
+    let currentUser = null;
+    let currentProfile = null;
 
-  document.querySelectorAll('[data-page]').forEach(el => {
-    el.addEventListener('click', e => { e.preventDefault(); navigateTo(el.dataset.page); });
-  });
-
-  window.onhashchange = () => navigateTo(window.location.hash.substring(1) || 'home');
-
-  function updateAuthUI() {
-    const loginBtn = document.getElementById('loginBtn');
-    const registerBtn = document.getElementById('registerBtn');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const profileLink = document.getElementById('profileLink');
-    const adminLink = document.getElementById('adminLink');
-    if (currentUser) {
-      loginBtn.style.display = 'none';
-      registerBtn.style.display = 'none';
-      logoutBtn.style.display = 'inline-block';
-      profileLink.style.display = 'inline-block';
-      if (currentProfile?.role === 'admin') adminLink.style.display = 'inline-block';
-      else adminLink.style.display = 'none';
-    } else {
-      loginBtn.style.display = 'inline-block';
-      registerBtn.style.display = 'inline-block';
-      logoutBtn.style.display = 'none';
-      profileLink.style.display = 'none';
-      adminLink.style.display = 'none';
+    // ---------- UI Navigation ----------
+    function navigateTo(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      const pageEl = document.getElementById(pageId);
+      if (pageEl) pageEl.classList.add('active');
+      else console.warn('Page not found:', pageId);
+      window.location.hash = pageId;
+      if (pageId === 'gallery') loadGallery();
+      else if (pageId === 'magazine') loadMagazine();
+      else if (pageId === 'eta') loadEta();
+      else if (pageId === 'profile') loadProfile();
+      else if (pageId === 'admin') loadAdminPanel();
+      else if (pageId === 'home') loadTeachers();
     }
-    renderUploadForms();
-  }
 
-  function renderUploadForms() {
-    const galleryUp = document.getElementById('galleryUpload');
-    const magUp = document.getElementById('magazineUpload');
-    const etaUp = document.getElementById('etaUpload');
-    if (currentUser) {
-      galleryUp.innerHTML = `<div class="form-container"><h3>ছবি আপলোড</h3><input type="file" id="galleryFile" accept="image/*" class="form-control"><input type="text" id="galleryCaption" placeholder="ক্যাপশন (যেমন: স্যারের সাথে)" class="form-control" style="margin-top:10px;"><button class="btn-pink" onclick="uploadGallery()">জমা দিন</button></div>`;
-      magUp.innerHTML = `<div class="form-container"><h3>লেখা জমা দিন</h3><input id="magTitle" placeholder="শিরোনাম" class="form-control"><textarea id="magContent" rows="4" placeholder="আপনার লেখা" class="form-control" style="margin-top:10px;"></textarea><button class="btn-pink" onclick="uploadMagazine()">জমা দিন</button></div>`;
-      etaUp.innerHTML = `<div class="form-container"><h3>ETA কন্টেন্ট</h3><select id="etaType" class="form-control"><option value="speech">বক্তৃতা</option><option value="qa">প্রশ্নোত্তর</option><option value="science">সায়েন্স ফেয়ার আইডিয়া</option></select><textarea id="etaContent" rows="4" class="form-control" placeholder="বিস্তারিত"></textarea><button class="btn-pink" onclick="uploadEta()">জমা দিন</button></div>`;
-    } else {
-      galleryUp.innerHTML = magUp.innerHTML = etaUp.innerHTML = `<p style="text-align:center;">কন্টেন্ট জমা দিতে <a href="#" onclick="openAuth('login')">লগইন</a> করুন।</p>`;
-    }
-  }
+    document.querySelectorAll('[data-page]').forEach(el => {
+      el.addEventListener('click', e => { e.preventDefault(); navigateTo(el.dataset.page); });
+    });
+    window.onhashchange = () => navigateTo(window.location.hash.substring(1) || 'home');
 
-  // ---------- অথেনটিকেশন ----------
-  let authMode = 'login';
-  const modal = document.getElementById('authModal');
-  window.openAuth = (mode) => { authMode = mode; document.getElementById('authTitle').textContent = mode==='login'?'লগইন':'রেজিস্টার'; document.getElementById('nameField').style.display = mode==='register'?'block':'none'; document.getElementById('roleField').style.display = mode==='register'?'block':'none'; modal.style.display='flex'; };
-  window.closeAuthModal = () => modal.style.display='none';
-  document.getElementById('switchAuthLink').addEventListener('click', e => { e.preventDefault(); openAuth(authMode==='login'?'register':'login'); });
-  document.getElementById('loginBtn').addEventListener('click', () => openAuth('login'));
-  document.getElementById('registerBtn').addEventListener('click', () => openAuth('register'));
-  document.getElementById('logoutBtn').addEventListener('click', async () => { await supabase.auth.signOut(); currentUser = null; currentProfile = null; updateAuthUI(); navigateTo('home'); });
-
-  document.getElementById('authForm').addEventListener('submit', async e => {
-    e.preventDefault();
-    const email = document.getElementById('authEmail').value;
-    const password = document.getElementById('authPassword').value;
-    const name = document.getElementById('authName')?.value;
-    const role = document.getElementById('authRole')?.value;
-    if (authMode === 'register') {
-      const { data, error } = await supabase.auth.signUp({ email, password });
-      if (error) return alert(error.message);
-      if (data.user) {
-        await supabase.from('profiles').insert([{ id: data.user.id, name, role }]);
-        alert('রেজিস্ট্রেশন সফল! এখন লগইন করুন।');
-        closeAuthModal();
+    // UI আপডেট
+    function updateAuthUI() {
+      const loginBtn = document.getElementById('loginBtn');
+      const registerBtn = document.getElementById('registerBtn');
+      const logoutBtn = document.getElementById('logoutBtn');
+      const profileLink = document.getElementById('profileLink');
+      const adminLink = document.getElementById('adminLink');
+      if (currentUser) {
+        loginBtn.style.display = 'none';
+        registerBtn.style.display = 'none';
+        logoutBtn.style.display = 'inline-block';
+        profileLink.style.display = 'inline-block';
+        adminLink.style.display = currentProfile?.role === 'admin' ? 'inline-block' : 'none';
+      } else {
+        loginBtn.style.display = 'inline-block';
+        registerBtn.style.display = 'inline-block';
+        logoutBtn.style.display = 'none';
+        profileLink.style.display = 'none';
+        adminLink.style.display = 'none';
       }
-    } else {
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) return alert(error.message);
-      currentUser = data.user;
-      const { data: profile } = await supabase.from('profiles').select('*').eq('id', currentUser.id).single();
-      currentProfile = profile;
+      renderUploadForms();
+    }
+
+    function renderUploadForms() {
+      const galleryUp = document.getElementById('galleryUpload');
+      const magUp = document.getElementById('magazineUpload');
+      const etaUp = document.getElementById('etaUpload');
+      if (currentUser) {
+        galleryUp.innerHTML = `<div class="form-container"><h3>ছবি আপলোড</h3><input type="file" id="galleryFile" accept="image/*" class="form-control"><input type="text" id="galleryCaption" placeholder="ক্যাপশন (যেমন: স্যারের সাথে)" class="form-control" style="margin-top:10px;"><button class="btn-pink" onclick="uploadGallery()">জমা দিন</button></div>`;
+        magUp.innerHTML = `<div class="form-container"><h3>লেখা জমা দিন</h3><input id="magTitle" placeholder="শিরোনাম" class="form-control"><textarea id="magContent" rows="4" placeholder="আপনার লেখা" class="form-control" style="margin-top:10px;"></textarea><button class="btn-pink" onclick="uploadMagazine()">জমা দিন</button></div>`;
+        etaUp.innerHTML = `<div class="form-container"><h3>ETA কন্টেন্ট</h3><select id="etaType" class="form-control"><option value="speech">বক্তৃতা</option><option value="qa">প্রশ্নোত্তর</option><option value="science">সায়েন্স ফেয়ার আইডিয়া</option></select><textarea id="etaContent" rows="4" class="form-control" placeholder="বিস্তারিত"></textarea><button class="btn-pink" onclick="uploadEta()">জমা দিন</button></div>`;
+      } else {
+        galleryUp.innerHTML = magUp.innerHTML = etaUp.innerHTML = `<p style="text-align:center;">কন্টেন্ট জমা দিতে <a href="#" onclick="openAuth('login')">লগইন</a> করুন।</p>`;
+      }
+    }
+
+    // Auth modal
+    let authMode = 'login';
+    const modal = document.getElementById('authModal');
+    window.openAuth = (mode) => {
+      authMode = mode;
+      document.getElementById('authTitle').textContent = mode === 'login' ? 'লগইন' : 'রেজিস্টার';
+      document.getElementById('nameField').style.display = mode === 'register' ? 'block' : 'none';
+      document.getElementById('roleField').style.display = mode === 'register' ? 'block' : 'none';
+      modal.style.display = 'flex';
+    };
+    window.closeAuthModal = () => modal.style.display = 'none';
+    document.getElementById('switchAuthLink').addEventListener('click', e => { e.preventDefault(); openAuth(authMode === 'login' ? 'register' : 'login'); });
+    document.getElementById('loginBtn').addEventListener('click', () => openAuth('login'));
+    document.getElementById('registerBtn').addEventListener('click', () => openAuth('register'));
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      currentUser = null;
+      currentProfile = null;
       updateAuthUI();
-      closeAuthModal();
       navigateTo('home');
+    });
+
+    document.getElementById('authForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const email = document.getElementById('authEmail').value;
+      const password = document.getElementById('authPassword').value;
+      const name = document.getElementById('authName')?.value;
+      const role = document.getElementById('authRole')?.value;
+
+      if (authMode === 'register') {
+        const { data, error } = await supabase.auth.signUp({ email, password });
+        if (error) return alert('রেজিস্ট্রেশন ত্রুটি: ' + error.message);
+        if (data.user) {
+          const { error: profileError } = await supabase.from('profiles').insert([{ id: data.user.id, name, role }]);
+          if (profileError) return alert('প্রোফাইল তৈরিতে ত্রুটি: ' + profileError.message);
+          alert('রেজিস্ট্রেশন সফল! এখন লগইন করুন।');
+          closeAuthModal();
+        }
+      } else {
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) return alert('লগইন ত্রুটি: ' + error.message);
+        currentUser = data.user;
+        const { data: profile, error: profileErr } = await supabase.from('profiles').select('*').eq('id', currentUser.id).single();
+        if (profileErr) console.warn('Profile not found:', profileErr);
+        currentProfile = profile || { role: 'student' };
+        updateAuthUI();
+        closeAuthModal();
+        navigateTo('home');
+      }
+    });
+
+    // Session check
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        currentUser = session.user;
+        supabase.from('profiles').select('*').eq('id', currentUser.id).single()
+          .then(({ data }) => { currentProfile = data || { role: 'student' }; updateAuthUI(); })
+          .catch(() => { currentProfile = { role: 'student' }; updateAuthUI(); });
+      }
+      updateAuthUI();
+      navigateTo('home');
+    });
+
+    // Data functions
+    async function loadTeachers() {
+      const { data: teachers } = await supabase.from('profiles').select('*').eq('role', 'teacher');
+      const grid = document.getElementById('teachersGrid');
+      if (teachers?.length) {
+        grid.innerHTML = teachers.map(t => `<div style="text-align:center;"><img src="${t.avatar_url || 'https://randomuser.me/api/portraits/lego/1.jpg'}" style="width:120px;height:120px;border-radius:50%;border:4px solid #ff6b9d;"><p><strong>${t.name}</strong><br>শিক্ষক</p></div>`).join('');
+      } else {
+        grid.innerHTML = `<p>এখনো কোনো শিক্ষক রেজিস্টার করেননি</p>`;
+      }
     }
-  });
 
-  // সেশন চেক
-  supabase.auth.getSession().then(({ data: { session } }) => {
-    if (session) {
-      currentUser = session.user;
-      supabase.from('profiles').select('*').eq('id', currentUser.id).single().then(({ data }) => { currentProfile = data; updateAuthUI(); });
+    async function loadGallery() {
+      const { data } = await supabase.from('gallery').select('*').eq('approved', true).order('created_at', { ascending: false });
+      const grid = document.getElementById('galleryGrid');
+      grid.innerHTML = data?.map(item => `<div class="gallery-item"><img src="${item.image_url}" class="gallery-img"><div class="gallery-caption">${item.caption}<br><small>— ${item.user_name}</small></div></div>`).join('') || '<p>কোনো ছবি নেই</p>';
     }
-    updateAuthUI();
-    navigateTo('home');
-  });
 
-  // ---------- ডাটা লোড ও আপলোড ----------
-  async function loadTeachers() {
-    const { data: teachers } = await supabase.from('profiles').select('*').eq('role', 'teacher');
-    const grid = document.getElementById('teachersGrid');
-    if (teachers?.length) {
-      grid.innerHTML = teachers.map(t => `<div style="text-align:center;"><img src="${t.avatar_url || 'https://randomuser.me/api/portraits/lego/1.jpg'}" style="width:120px;height:120px;border-radius:50%;border:4px solid #ff6b9d;"><p><strong>${t.name}</strong><br>শিক্ষক</p></div>`).join('');
-    } else {
-      grid.innerHTML = `<p>এখনো কোনো শিক্ষক রেজিস্টার করেননি</p>`;
+    async function uploadGallery() {
+      const file = document.getElementById('galleryFile').files[0];
+      const caption = document.getElementById('galleryCaption').value;
+      if (!file) return alert('ছবি সিলেক্ট করুন');
+      const fileName = `${Date.now()}_${file.name}`;
+      const { error: uploadError } = await supabase.storage.from('gallery').upload(fileName, file);
+      if (uploadError) return alert('আপলোড ত্রুটি: ' + uploadError.message);
+      const { data: { publicUrl } } = supabase.storage.from('gallery').getPublicUrl(fileName);
+      const { error: insertError } = await supabase.from('gallery').insert([{ image_url: publicUrl, caption, user_id: currentUser.id, user_name: currentProfile.name, approved: false }]);
+      if (insertError) return alert('সংরক্ষণ ত্রুটি: ' + insertError.message);
+      alert('ছবি জমা হয়েছে, অনুমোদনের অপেক্ষায়');
+      loadGallery();
     }
-  }
 
-  async function loadGallery() {
-    const { data } = await supabase.from('gallery').select('*').eq('approved', true).order('created_at', { ascending: false });
-    const grid = document.getElementById('galleryGrid');
-    grid.innerHTML = data?.map(item => `<div class="gallery-item"><img src="${item.image_url}" class="gallery-img"><div class="gallery-caption">${item.caption}<br><small>— ${item.user_name}</small></div></div>`).join('') || '<p>কোনো ছবি নেই</p>';
-  }
-
-  async function uploadGallery() {
-    const file = document.getElementById('galleryFile').files[0];
-    const caption = document.getElementById('galleryCaption').value;
-    if (!file) return alert('ছবি সিলেক্ট করুন');
-    const fileName = `${Date.now()}_${file.name}`;
-    const { error: uploadError } = await supabase.storage.from('gallery').upload(fileName, file);
-    if (uploadError) return alert(uploadError.message);
-    const { data: { publicUrl } } = supabase.storage.from('gallery').getPublicUrl(fileName);
-    await supabase.from('gallery').insert([{ image_url: publicUrl, caption, user_id: currentUser.id, user_name: currentProfile.name, approved: false }]);
-    alert('ছবি জমা হয়েছে, অ্যাডমিন অনুমোদনের অপেক্ষায়');
-    loadGallery();
-  }
-
-  async function loadMagazine() {
-    const { data } = await supabase.from('magazine').select('*').eq('approved', true).order('created_at', { ascending: false });
-    document.getElementById('magazineGrid').innerHTML = data?.map(m => `<div class="feature-card"><h3>${m.title}</h3><p>${m.content}</p><small>— ${m.user_name}</small></div>`).join('') || '<p>কোনো লেখা নেই</p>';
-  }
-
-  async function uploadMagazine() {
-    const title = document.getElementById('magTitle').value;
-    const content = document.getElementById('magContent').value;
-    if (!title || !content) return alert('শিরোনাম ও লেখা দিন');
-    await supabase.from('magazine').insert([{ title, content, user_id: currentUser.id, user_name: currentProfile.name, approved: false }]);
-    alert('জমা হয়েছে');
-    loadMagazine();
-  }
-
-  async function loadEta() {
-    const { data } = await supabase.from('eta').select('*').eq('approved', true);
-    document.getElementById('etaGrid').innerHTML = data?.map(e => `<div class="pending-item"><div><strong>${e.type}</strong><p>${e.content}</p><small>— ${e.user_name}</small></div></div>`).join('') || '<p>কোনো কন্টেন্ট নেই</p>';
-  }
-
-  async function uploadEta() {
-    const type = document.getElementById('etaType').value;
-    const content = document.getElementById('etaContent').value;
-    if (!content) return alert('কন্টেন্ট লিখুন');
-    await supabase.from('eta').insert([{ type, content, user_id: currentUser.id, user_name: currentProfile.name, approved: false }]);
-    alert('জমা হয়েছে');
-    loadEta();
-  }
-
-  async function loadProfile() {
-    if (!currentUser) return navigateTo('home');
-    document.getElementById('profileInfo').innerHTML = `<p><strong>নাম:</strong> ${currentProfile.name}</p><p><strong>ইমেইল:</strong> ${currentUser.email}</p><p><strong>রোল:</strong> ${currentProfile.role}</p>`;
-    const { data: notifs } = await supabase.from('notifications').select('*').eq('user_id', currentUser.id).order('created_at', { ascending: false });
-    document.getElementById('notifList').innerHTML = notifs?.map(n => `<p>🔔 ${n.message} <small>${new Date(n.created_at).toLocaleString()}</small></p>`).join('') || '<p>কোনো নোটিফিকেশন নেই</p>';
-  }
-
-  // অ্যাডমিন প্যানেল
-  let activeAdminTab = 'gallery';
-  async function loadAdminPanel() {
-    if (!currentProfile || currentProfile.role !== 'admin') return navigateTo('home');
-    const container = document.getElementById('adminContent');
-    if (activeAdminTab === 'gallery') {
-      const { data } = await supabase.from('gallery').select('*').eq('approved', false);
-      container.innerHTML = data?.map((item, i) => `<div class="pending-item"><div><img src="${item.image_url}" width="60"> ${item.caption} (${item.user_name})</div><button class="btn-pink" onclick="approveItem('gallery', ${item.id})">অনুমোদন</button></div>`).join('') || '<p>কোনো পেন্ডিং আইটেম নেই</p>';
-    } else if (activeAdminTab === 'magazine') {
-      const { data } = await supabase.from('magazine').select('*').eq('approved', false);
-      container.innerHTML = data?.map(m => `<div class="pending-item"><div><strong>${m.title}</strong> by ${m.user_name}</div><button class="btn-pink" onclick="approveItem('magazine', ${m.id})">অনুমোদন</button></div>`).join('') || '<p>কোনো পেন্ডিং আইটেম নেই</p>';
-    } else if (activeAdminTab === 'eta') {
-      const { data } = await supabase.from('eta').select('*').eq('approved', false);
-      container.innerHTML = data?.map(e => `<div class="pending-item"><div>${e.type}: ${e.content.substring(0,50)}... (${e.user_name})</div><button class="btn-pink" onclick="approveItem('eta', ${e.id})">অনুমোদন</button></div>`).join('') || '<p>কোনো পেন্ডিং আইটেম নেই</p>';
-    } else if (activeAdminTab === 'email') {
-      container.innerHTML = `<div class="form-container"><h3>সকলকে ইমেইল (নোটিফিকেশন)</h3><textarea id="emailMsg" class="form-control" placeholder="মেসেজ"></textarea><button class="btn-pink" onclick="sendAdminNotification()">পাঠান</button></div>`;
+    async function loadMagazine() {
+      const { data } = await supabase.from('magazine').select('*').eq('approved', true).order('created_at', { ascending: false });
+      document.getElementById('magazineGrid').innerHTML = data?.map(m => `<div class="feature-card"><h3>${m.title}</h3><p>${m.content}</p><small>— ${m.user_name}</small></div>`).join('') || '<p>কোনো লেখা নেই</p>';
     }
-  }
 
-  window.approveItem = async (table, id) => {
-    await supabase.from(table).update({ approved: true }).eq('id', id);
-    // নোটিফিকেশন
-    const { data: item } = await supabase.from(table).select('user_id').eq('id', id).single();
-    if (item) await supabase.from('notifications').insert([{ user_id: item.user_id, message: `আপনার ${table} কন্টেন্ট অনুমোদিত হয়েছে।` }]);
-    loadAdminPanel();
-  };
+    async function uploadMagazine() {
+      const title = document.getElementById('magTitle').value;
+      const content = document.getElementById('magContent').value;
+      if (!title || !content) return alert('শিরোনাম ও লেখা দিন');
+      const { error } = await supabase.from('magazine').insert([{ title, content, user_id: currentUser.id, user_name: currentProfile.name, approved: false }]);
+      if (error) return alert('ত্রুটি: ' + error.message);
+      alert('জমা হয়েছে');
+      loadMagazine();
+    }
 
-  window.sendAdminNotification = async () => {
-    const msg = document.getElementById('emailMsg').value;
-    const { data: users } = await supabase.from('profiles').select('id');
-    for (let u of users) await supabase.from('notifications').insert([{ user_id: u.id, message: `📢 অ্যাডমিন: ${msg}` }]);
-    alert('সকলকে নোটিফিকেশন পাঠানো হয়েছে');
-  };
+    async function loadEta() {
+      const { data } = await supabase.from('eta').select('*').eq('approved', true);
+      document.getElementById('etaGrid').innerHTML = data?.map(e => `<div class="pending-item"><div><strong>${e.type}</strong><p>${e.content}</p><small>— ${e.user_name}</small></div></div>`).join('') || '<p>কোনো কন্টেন্ট নেই</p>';
+    }
 
-  document.querySelectorAll('.admin-tab').forEach(t => t.addEventListener('click', function() {
-    document.querySelectorAll('.admin-tab').forEach(tab => tab.classList.remove('active'));
-    this.classList.add('active');
-    activeAdminTab = this.dataset.tab;
-    loadAdminPanel();
-  }));
+    async function uploadEta() {
+      const type = document.getElementById('etaType').value;
+      const content = document.getElementById('etaContent').value;
+      if (!content) return alert('কন্টেন্ট লিখুন');
+      const { error } = await supabase.from('eta').insert([{ type, content, user_id: currentUser.id, user_name: currentProfile.name, approved: false }]);
+      if (error) return alert('ত্রুটি: ' + error.message);
+      alert('জমা হয়েছে');
+      loadEta();
+    }
 
-  // গ্লোবাল ফাংশন এক্সপোজ
-  window.uploadGallery = uploadGallery;
-  window.uploadMagazine = uploadMagazine;
-  window.uploadEta = uploadEta;
-  window.navigateTo = navigateTo;
+    async function loadProfile() {
+      if (!currentUser) return navigateTo('home');
+      document.getElementById('profileInfo').innerHTML = `<p><strong>নাম:</strong> ${currentProfile.name}</p><p><strong>ইমেইল:</strong> ${currentUser.email}</p><p><strong>রোল:</strong> ${currentProfile.role}</p>`;
+      const { data: notifs } = await supabase.from('notifications').select('*').eq('user_id', currentUser.id).order('created_at', { ascending: false });
+      document.getElementById('notifList').innerHTML = notifs?.map(n => `<p>🔔 ${n.message} <small>${new Date(n.created_at).toLocaleString()}</small></p>`).join('') || '<p>কোনো নোটিফিকেশন নেই</p>';
+    }
 
-  // ইনিশিয়াল লোড
-  renderUploadForms();
+    let activeAdminTab = 'gallery';
+    async function loadAdminPanel() {
+      if (!currentProfile || currentProfile.role !== 'admin') return navigateTo('home');
+      const container = document.getElementById('adminContent');
+      if (activeAdminTab === 'gallery') {
+        const { data } = await supabase.from('gallery').select('*').eq('approved', false);
+        container.innerHTML = data?.map(item => `<div class="pending-item"><div><img src="${item.image_url}" width="60"> ${item.caption} (${item.user_name})</div><button class="btn-pink" onclick="approveItem('gallery', ${item.id})">অনুমোদন</button></div>`).join('') || '<p>কোনো পেন্ডিং আইটেম নেই</p>';
+      } else if (activeAdminTab === 'magazine') {
+        const { data } = await supabase.from('magazine').select('*').eq('approved', false);
+        container.innerHTML = data?.map(m => `<div class="pending-item"><div><strong>${m.title}</strong> by ${m.user_name}</div><button class="btn-pink" onclick="approveItem('magazine', ${m.id})">অনুমোদন</button></div>`).join('') || '<p>কোনো পেন্ডিং আইটেম নেই</p>';
+      } else if (activeAdminTab === 'eta') {
+        const { data } = await supabase.from('eta').select('*').eq('approved', false);
+        container.innerHTML = data?.map(e => `<div class="pending-item"><div>${e.type}: ${e.content.substring(0,50)}... (${e.user_name})</div><button class="btn-pink" onclick="approveItem('eta', ${e.id})">অনুমোদন</button></div>`).join('') || '<p>কোনো পেন্ডিং আইটেম নেই</p>';
+      } else if (activeAdminTab === 'email') {
+        container.innerHTML = `<div class="form-container"><h3>সকলকে নোটিফিকেশন</h3><textarea id="emailMsg" class="form-control" placeholder="মেসেজ"></textarea><button class="btn-pink" onclick="sendAdminNotification()">পাঠান</button></div>`;
+      }
+    }
+
+    window.approveItem = async (table, id) => {
+      await supabase.from(table).update({ approved: true }).eq('id', id);
+      const { data: item } = await supabase.from(table).select('user_id').eq('id', id).single();
+      if (item) await supabase.from('notifications').insert([{ user_id: item.user_id, message: `আপনার ${table} কন্টেন্ট অনুমোদিত হয়েছে।` }]);
+      loadAdminPanel();
+    };
+
+    window.sendAdminNotification = async () => {
+      const msg = document.getElementById('emailMsg').value;
+      const { data: users } = await supabase.from('profiles').select('id');
+      for (let u of users) {
+        await supabase.from('notifications').insert([{ user_id: u.id, message: `📢 অ্যাডমিন: ${msg}` }]);
+      }
+      alert('সকলকে নোটিফিকেশন পাঠানো হয়েছে');
+    };
+
+    document.querySelectorAll('.admin-tab').forEach(t => t.addEventListener('click', function() {
+      document.querySelectorAll('.admin-tab').forEach(tab => tab.classList.remove('active'));
+      this.classList.add('active');
+      activeAdminTab = this.dataset.tab;
+      loadAdminPanel();
+    }));
+
+    // Expose functions
+    window.uploadGallery = uploadGallery;
+    window.uploadMagazine = uploadMagazine;
+    window.uploadEta = uploadEta;
+    window.navigateTo = navigateTo;
+    window.openAuth = openAuth;
+    window.closeAuthModal = closeAuthModal;
+
+    // Initial
+    renderUploadForms();
+  })();
 </script>
 </body>
 </html>
