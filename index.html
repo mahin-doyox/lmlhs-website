@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>লাহিড়ী বহুমুখী উচ্চ বিদ্যালয় • এসএসসি ২০২৫</title>
+  <title>লাহিড়ী বহুমুখী উচ্চ বিদ্যালয় • LMLHS</title>
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <style>
     /* ---------- গ্লোবাল রিসেট ও বেস স্টাইল ---------- */
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -98,7 +100,6 @@
     .hero-text h1 { font-size: clamp(2.5rem, 8vw, 4.2rem); color: var(--navy); margin-bottom: 1.2rem; }
     .highlight { color: var(--pink); border-bottom: 4px dotted var(--pink-light); }
     .hero-desc { font-size: 1.2rem; margin: 1.8rem 0; color: #2d3a4f; max-width: 600px; }
-    /* ✅✅✅ হিরো ইমেজ সরাসরি অনলাইন লিংক থেকে নেওয়া ✅✅✅ */
     .hero-image {
       flex: 1; min-height: 340px; border-radius: 40px; box-shadow: var(--shadow-lg);
       border: 5px solid white; 
@@ -181,6 +182,7 @@
     .page { display: none; animation: fadeUp 0.4s; }
     .page.active { display: block; }
     #authModal .form-card { margin: 1rem; max-height: 90vh; overflow-y: auto; }
+    .field-hint { font-size: 0.8rem; color: #64748b; margin-top: 4px; margin-left: 8px; }
   </style>
 </head>
 <body>
@@ -253,7 +255,7 @@
   <div id="magazine" class="page"><div class="container" style="padding:2rem 0;"><h2 class="section-title">স্মার্ট ম্যাগাজিন</h2><div id="magazineUpload"></div><div id="magazineGrid" class="masonry-grid"></div></div></div>
   <div id="eta" class="page"><div class="container" style="padding:2rem 0;"><h2 class="section-title">ইটিএ - এক্সট্রা কারিকুলার</h2><div id="etaUpload"></div><div id="etaGrid"></div></div></div>
   <div id="profile" class="page"><div class="form-card"><h2>আমার প্রোফাইল</h2><div id="profileInfo"></div><h3 style="margin-top:2rem;">নোটিফিকেশন</h3><div id="notifList"></div></div></div>
-  <div id="admin" class="page"><div class="container" style="padding:2rem 0;"><h2 class="section-title">অ্যাডমিন প্যানেল</h2><div class="admin-tabs"><button class="admin-tab active" data-tab="gallery">গ্যালারি</button><button class="admin-tab" data-tab="magazine">ম্যাগাজিন</button><button class="admin-tab" data-tab="eta">ইটিএ</button><button class="admin-tab" data-tab="email">ইমেইল</button><button class="admin-tab" data-tab="sms">SMS</button></div><div id="adminContent"></div></div></div>
+  <div id="admin" class="page"><div class="container" style="padding:2rem 0;"><h2 class="section-title">অ্যাডমিন প্যানেল</h2><div class="admin-tabs"><button class="admin-tab active" data-tab="gallery">গ্যালারি</button><button class="admin-tab" data-tab="magazine">ম্যাগাজিন</button><button class="admin-tab" data-tab="eta">ইটিএ</button><button class="admin-tab" data-tab="email">📧 ইমেইল পাঠান</button></div><div id="adminContent"></div></div></div>
 </main>
 
 <div id="authModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); backdrop-filter: blur(8px); z-index:2000; align-items:center; justify-content:center; padding:1rem;">
@@ -264,7 +266,11 @@
       <div class="form-group"><label>ইমেইল</label><input type="email" id="authEmail" class="form-control" required></div>
       <div class="form-group"><label>পাসওয়ার্ড</label><input type="password" id="authPassword" class="form-control" required></div>
       <div class="form-group" id="nameField" style="display:none;"><label>নাম</label><input type="text" id="authName" class="form-control"></div>
-      <div class="form-group" id="phoneField" style="display:none;"><label>ফোন নম্বর</label><input type="tel" id="authPhone" class="form-control" placeholder="+8801XXXXXXXXX"></div>
+      <div class="form-group" id="phoneField" style="display:none;">
+        <label>ফোন নম্বর <span style="color:#e84393;">(+88 দিয়ে শুরু করুন)</span></label>
+        <input type="tel" id="authPhone" class="form-control" placeholder="+8801XXXXXXXXX">
+        <div class="field-hint"><i class="fas fa-info-circle"></i> আন্তর্জাতিক ফরম্যাট: +8801XXXXXXXXX</div>
+      </div>
       <div class="form-group" id="roleField" style="display:none;"><label>রোল</label><select id="authRole" class="form-control"><option value="student">ছাত্র (এসএসসি ২৫)</option><option value="teacher">শিক্ষক</option></select></div>
       <button type="submit" class="btn btn-primary w-100">সাবমিট</button>
     </form>
@@ -272,7 +278,6 @@
       <a href="#" id="switchAuthLink">রেজিস্টার করুন</a> | 
       <a href="#" id="forgotPasswordLink">পাসওয়ার্ড ভুলে গেছেন?</a>
     </p>
-    <!-- Forgot Password Form (hidden by default) -->
     <div id="forgotPasswordForm" style="display:none;">
       <hr style="margin:1.5rem 0; border-color:#e2e8f0;">
       <h3 style="margin-bottom:1rem;">পাসওয়ার্ড রিসেট</h3>
@@ -288,13 +293,23 @@
 
 <script>
   (function() {
+    // ---------- কনফিগারেশন (আপনার তথ্য বসান) ----------
     const SUPABASE_URL = 'https://jpnwdfdpbwgoqpwmvgkl.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwbndkZmRwYndnb3Fwd212Z2tsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3OTU2NDMsImV4cCI6MjA5MjM3MTY0M30.Hn_a1czvgM2httKGUWux0NT4yqiBfvnSOEvK5NJ0gvk';
+    
+    // EmailJS কনফিগ (আপনার তথ্য বসান)
+    const EMAILJS_PUBLIC_KEY = 'eY3d-EgKy8WSlW0LN'; // EmailJS Public Key
+    const EMAILJS_SERVICE_ID = 'service_z2zwlm2'; // EmailJS Service ID
+    const EMAILJS_TEMPLATE_ID = 'template_3asxotb'; // EmailJS Template ID
+    
+    // Supabase ইনিশিয়ালাইজ
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // EmailJS ইনিশিয়ালাইজ
+    emailjs.init(EMAILJS_PUBLIC_KEY);
     
     let currentUser = null, currentProfile = null;
 
-    // Mobile menu toggle
+    // মোবাইল মেনু টগল
     document.getElementById('menuToggle').addEventListener('click', ()=>{
       document.getElementById('navLinks').classList.toggle('active');
     });
@@ -363,7 +378,6 @@
       await supabase.auth.signOut(); currentUser=null; currentProfile=null; updateAuthUI(); navigateTo('home');
     });
 
-    // Forgot Password flow
     document.getElementById('forgotPasswordLink').addEventListener('click', e=>{
       e.preventDefault();
       document.getElementById('authTitle').textContent = 'পাসওয়ার্ড রিসেট';
@@ -488,9 +502,7 @@
         const { data } = await supabase.from('eta').select('*').eq('approved', false);
         container.innerHTML = data?.map(e=>`<div class="pending-item"><div>${e.type}: ${e.content.substring(0,50)}... (${e.user_name})</div><button class="btn btn-primary btn-sm" onclick="approveItem('eta',${e.id})">অনুমোদন</button></div>`).join('')||'<p>কোনো পেন্ডিং নেই</p>';
       } else if(activeAdminTab==='email') {
-        container.innerHTML = `<div class="form-card"><h3>সকলকে নোটিফিকেশন</h3><textarea id="emailMsg" class="form-control" placeholder="মেসেজ"></textarea><button class="btn btn-primary w-100 mt-3" onclick="sendAdminNotification()">পাঠান</button></div>`;
-      } else if(activeAdminTab==='sms') {
-        container.innerHTML = `<div class="form-card"><h3>সকলকে SMS পাঠান (Textbelt)</h3><textarea id="smsMsg" class="form-control" placeholder="মেসেজ"></textarea><p class="text-small" style="margin-top:0.5rem;">⚠️ প্রতিদিন ১টি ফ্রি SMS। ফোন নম্বর আন্তর্জাতিক ফরম্যাটে হতে হবে।</p><button class="btn btn-primary w-100 mt-3" onclick="sendSMSToAll()">SMS পাঠান</button></div>`;
+        container.innerHTML = `<div class="form-card"><h3>📧 সকলকে ইমেইল পাঠান</h3><textarea id="emailMsg" class="form-control" placeholder="আপনার মেসেজ লিখুন"></textarea><p class="field-hint" style="margin-top:8px;"><i class="fas fa-info-circle"></i> প্রতিটি ইউজারের ইমেইলে এই মেসেজ পাঠানো হবে।</p><button class="btn btn-primary w-100 mt-3" onclick="sendEmailToAll()"><i class="fas fa-envelope"></i> ইমেইল পাঠান</button></div>`;
       }
     }
 
@@ -501,31 +513,34 @@
       loadAdminPanel();
     };
 
-    window.sendAdminNotification = async ()=>{
+    // ইমেইল পাঠানোর ফাংশন (EmailJS)
+    window.sendEmailToAll = async ()=>{
       const msg = document.getElementById('emailMsg').value;
-      const { data: users } = await supabase.from('profiles').select('id');
-      for(let u of users) await supabase.from('notifications').insert([{ user_id: u.id, message: `📢 অ্যাডমিন: ${msg}` }]);
-      alert('সকলকে নোটিফিকেশন পাঠানো হয়েছে');
-    };
-
-    window.sendSMSToAll = async ()=>{
-      const msg = document.getElementById('smsMsg').value;
       if(!msg) return alert('মেসেজ লিখুন');
-      const { data: users } = await supabase.from('profiles').select('phone');
-      let count = 0;
+      
+      const { data: users } = await supabase.from('profiles').select('email, name, id');
+      let successCount = 0, failCount = 0;
+      
       for(let u of users) {
-        if(!u.phone) continue;
+        if(!u.email) continue;
         try {
-          const res = await fetch('https://textbelt.com/text', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ phone: u.phone, message: msg, key: 'textbelt' })
+          await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+            to_email: u.email,
+            to_name: u.name || 'শিক্ষার্থী/শিক্ষক',
+            message: msg
           });
-          const json = await res.json();
-          if(json.success) count++;
-        } catch(e) { console.error(e); }
+          successCount++;
+          // ইন-অ্যাপ নোটিফিকেশনও সংরক্ষণ
+          await supabase.from('notifications').insert([{
+            user_id: u.id,
+            message: `📧 ইমেইল পাঠানো হয়েছে: ${msg}`
+          }]);
+        } catch(e) {
+          console.error('ইমেইল ত্রুটি:', u.email, e);
+          failCount++;
+        }
       }
-      alert(`${count} টি SMS পাঠানো হয়েছে (সর্বোচ্চ ১টি ফ্রি প্রতি দিন)।`);
+      alert(`📧 ইমেইল রিপোর্ট:\n✅ সফল: ${successCount}\n❌ ব্যর্থ: ${failCount}`);
     };
 
     document.querySelectorAll('.admin-tab').forEach(t=> t.addEventListener('click', function(){
