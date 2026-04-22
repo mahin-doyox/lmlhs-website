@@ -152,6 +152,11 @@
       flex-wrap: wrap; gap: 1rem;
     }
 
+    .detail-box {
+      background: #f8fafc; padding: 1rem; border-radius: 16px; margin-top: 1rem;
+      border: 1px solid #e2e8f0; white-space: pre-wrap; word-break: break-word;
+    }
+
     footer {
       background: var(--navy); color: rgba(255,255,255,0.9); padding: 3rem 5%;
       margin-top: 4rem; text-align: center; border-radius: 40px 40px 0 0;
@@ -293,23 +298,20 @@
 
 <script>
   (function() {
-    // ---------- কনফিগারেশন (আপনার তথ্য বসান) ----------
+    // ---------- কনফিগারেশন ----------
     const SUPABASE_URL = 'https://jpnwdfdpbwgoqpwmvgkl.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwbndkZmRwYndnb3Fwd212Z2tsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3OTU2NDMsImV4cCI6MjA5MjM3MTY0M30.Hn_a1czvgM2httKGUWux0NT4yqiBfvnSOEvK5NJ0gvk';
     
-    // EmailJS কনফিগ (আপনার তথ্য বসান)
-    const EMAILJS_PUBLIC_KEY = 'eY3d-EgKy8WSlW0LN'; // EmailJS Public Key
-    const EMAILJS_SERVICE_ID = 'service_z2zwlm2'; // EmailJS Service ID
-    const EMAILJS_TEMPLATE_ID = 'template_3asxotb'; // EmailJS Template ID
+    const EMAILJS_PUBLIC_KEY = 'eY3d-EgKy8WSlW0LN';
+    const EMAILJS_SERVICE_ID = 'service_z2zwlm2';
+    const EMAILJS_TEMPLATE_ID = 'template_3asxotb';
     
-    // Supabase ইনিশিয়ালাইজ
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    // EmailJS ইনিশিয়ালাইজ
     emailjs.init(EMAILJS_PUBLIC_KEY);
     
     let currentUser = null, currentProfile = null;
 
-    // মোবাইল মেনু টগল
+    // Mobile menu toggle
     document.getElementById('menuToggle').addEventListener('click', ()=>{
       document.getElementById('navLinks').classList.toggle('active');
     });
@@ -484,7 +486,8 @@
     async function loadProfile() {
       if(!currentUser) return navigateTo('home');
       document.getElementById('profileInfo').innerHTML = `<p><strong>নাম:</strong> ${currentProfile.name}</p><p><strong>ইমেইল:</strong> ${currentUser.email}</p><p><strong>ফোন:</strong> ${currentProfile.phone || 'N/A'}</p><p><strong>রোল:</strong> ${currentProfile.role}</p>`;
-      const { data: notifs } = await supabase.from('notifications').select('*').eq('user_id', currentUser.id).order('created_at', {ascending:false});
+      // ✅ শুধু সর্বশেষ ২টি নোটিফিকেশন দেখাবে
+      const { data: notifs } = await supabase.from('notifications').select('*').eq('user_id', currentUser.id).order('created_at', {ascending:false}).limit(2);
       document.getElementById('notifList').innerHTML = notifs?.map(n=>`<p>🔔 ${n.message} <small>${new Date(n.created_at).toLocaleString()}</small></p>`).join('') || '<p>কোনো নোটিফিকেশন নেই</p>';
     }
 
@@ -497,14 +500,42 @@
         container.innerHTML = data?.map(i=>`<div class="pending-item"><div><img src="${i.image_url}" width="50"> ${i.caption} (${i.user_name})</div><button class="btn btn-primary btn-sm" onclick="approveItem('gallery',${i.id})">অনুমোদন</button></div>`).join('')||'<p>কোনো পেন্ডিং নেই</p>';
       } else if(activeAdminTab==='magazine') {
         const { data } = await supabase.from('magazine').select('*').eq('approved', false);
-        container.innerHTML = data?.map(m=>`<div class="pending-item"><div><strong>${m.title}</strong> by ${m.user_name}</div><button class="btn btn-primary btn-sm" onclick="approveItem('magazine',${m.id})">অনুমোদন</button></div>`).join('')||'<p>কোনো পেন্ডিং নেই</p>';
+        container.innerHTML = data?.map(m=>`<div class="pending-item" id="mag-${m.id}">
+          <div style="width:100%;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div><strong>${m.title}</strong> by ${m.user_name}</div>
+              <div>
+                <button class="btn btn-outline btn-sm" onclick="toggleDetail('mag-${m.id}-detail')"><i class="fas fa-eye"></i> বিস্তারিত</button>
+                <button class="btn btn-primary btn-sm" onclick="approveItem('magazine',${m.id})">অনুমোদন</button>
+              </div>
+            </div>
+            <div id="mag-${m.id}-detail" class="detail-box" style="display:none;">${m.content.replace(/\n/g, '<br>')}</div>
+          </div>
+        </div>`).join('')||'<p>কোনো পেন্ডিং নেই</p>';
       } else if(activeAdminTab==='eta') {
         const { data } = await supabase.from('eta').select('*').eq('approved', false);
-        container.innerHTML = data?.map(e=>`<div class="pending-item"><div>${e.type}: ${e.content.substring(0,50)}... (${e.user_name})</div><button class="btn btn-primary btn-sm" onclick="approveItem('eta',${e.id})">অনুমোদন</button></div>`).join('')||'<p>কোনো পেন্ডিং নেই</p>';
+        container.innerHTML = data?.map(e=>`<div class="pending-item" id="eta-${e.id}">
+          <div style="width:100%;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div><strong>${e.type}</strong> by ${e.user_name} — ${e.content.substring(0,50)}...</div>
+              <div>
+                <button class="btn btn-outline btn-sm" onclick="toggleDetail('eta-${e.id}-detail')"><i class="fas fa-eye"></i> বিস্তারিত</button>
+                <button class="btn btn-primary btn-sm" onclick="approveItem('eta',${e.id})">অনুমোদন</button>
+              </div>
+            </div>
+            <div id="eta-${e.id}-detail" class="detail-box" style="display:none;">${e.content.replace(/\n/g, '<br>')}</div>
+          </div>
+        </div>`).join('')||'<p>কোনো পেন্ডিং নেই</p>';
       } else if(activeAdminTab==='email') {
         container.innerHTML = `<div class="form-card"><h3>📧 সকলকে ইমেইল পাঠান</h3><textarea id="emailMsg" class="form-control" placeholder="আপনার মেসেজ লিখুন"></textarea><p class="field-hint" style="margin-top:8px;"><i class="fas fa-info-circle"></i> প্রতিটি ইউজারের ইমেইলে এই মেসেজ পাঠানো হবে।</p><button class="btn btn-primary w-100 mt-3" onclick="sendEmailToAll()"><i class="fas fa-envelope"></i> ইমেইল পাঠান</button></div>`;
       }
     }
+
+    // ✅ বিস্তারিত টগল করার ফাংশন
+    window.toggleDetail = (id) => {
+      const el = document.getElementById(id);
+      if(el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+    };
 
     window.approveItem = async (table, id) => {
       await supabase.from(table).update({ approved: true }).eq('id', id);
@@ -513,7 +544,6 @@
       loadAdminPanel();
     };
 
-    // ইমেইল পাঠানোর ফাংশন (EmailJS)
     window.sendEmailToAll = async ()=>{
       const msg = document.getElementById('emailMsg').value;
       if(!msg) return alert('মেসেজ লিখুন');
@@ -530,11 +560,7 @@
             message: msg
           });
           successCount++;
-          // ইন-অ্যাপ নোটিফিকেশনও সংরক্ষণ
-          await supabase.from('notifications').insert([{
-            user_id: u.id,
-            message: `📧 ইমেইল পাঠানো হয়েছে: ${msg}`
-          }]);
+          await supabase.from('notifications').insert([{ user_id: u.id, message: `📧 ইমেইল পাঠানো হয়েছে: ${msg}` }]);
         } catch(e) {
           console.error('ইমেইল ত্রুটি:', u.email, e);
           failCount++;
