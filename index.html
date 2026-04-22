@@ -14,7 +14,6 @@
   <!-- EmailJS -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <style>
-    /* ---------- গ্লোবাল রিসেট ও বেস স্টাইল ---------- */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Noto Sans Bengali', 'Segoe UI', sans-serif;
@@ -91,22 +90,50 @@
     .auth-buttons { display: flex; gap: 12px; }
     .menu-toggle { display: none; background: none; border: none; font-size: 1.8rem; color: var(--navy); cursor: pointer; }
 
+    /* ---------- হিরো সেকশন (মোবাইল অপ্টিমাইজড) ---------- */
     .hero {
-      background: linear-gradient(145deg, #fdf2f8 0%, #fff 80%); padding: 4rem 5%;
+      background: linear-gradient(145deg, #fdf2f8 0%, #fff 80%); padding: 3rem 5%;
       border-radius: 0 0 60px 60px; margin-bottom: 1rem; border-bottom: var(--border-light);
     }
     .hero-content { max-width: 1300px; margin: 0 auto; display: flex; align-items: center; gap: 3rem; flex-wrap: wrap; }
     .hero-text { flex: 1.1; animation: fadeUp 0.8s; }
-    .hero-text h1 { font-size: clamp(2.5rem, 8vw, 4.2rem); color: var(--navy); margin-bottom: 1.2rem; }
+    .hero-text h1 { font-size: clamp(2.2rem, 8vw, 4.2rem); color: var(--navy); margin-bottom: 1.2rem; }
     .highlight { color: var(--pink); border-bottom: 4px dotted var(--pink-light); }
-    .hero-desc { font-size: 1.2rem; margin: 1.8rem 0; color: #2d3a4f; max-width: 600px; }
+    .hero-desc { font-size: 1.1rem; margin: 1.8rem 0; color: #2d3a4f; max-width: 600px; }
     .hero-image {
-      flex: 1; min-height: 340px; border-radius: 40px; box-shadow: var(--shadow-lg);
+      flex: 1; min-height: 300px; border-radius: 40px; box-shadow: var(--shadow-lg);
       border: 5px solid white; 
-      background: url('https://i.ibb.co.com/Kj0LxBbR/lahiri-school.jpg') center/cover;
+      background: url('https://i.ibb.co.com/Kj0LxBbR/lahiri-school.jpg') center/cover no-repeat;
       transition: transform 0.3s;
     }
     .hero-image:hover { transform: scale(1.01); }
+
+    /* মোবাইলে হিরো স্ট্যাকিং */
+    @media (max-width: 768px) {
+      .hero-content { flex-direction: column-reverse; gap: 1.5rem; }
+      .hero-text { text-align: center; }
+      .hero-text h1 { font-size: 2rem; }
+      .hero-desc { font-size: 1rem; margin: 1rem 0; }
+      .hero-image { min-height: 220px; width: 100%; }
+    }
+
+    /* ---------- দ্রুত নেভিগেশন কার্ড (হোম পেজ) ---------- */
+    .quick-nav-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    .quick-nav-card {
+      background: var(--white); padding: 1.8rem 1.5rem; border-radius: 28px;
+      box-shadow: var(--shadow-sm); border: var(--border-light); transition: all 0.25s;
+      text-align: center; cursor: pointer;
+    }
+    .quick-nav-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--pink-soft); }
+    .quick-nav-card i { font-size: 2.5rem; color: var(--pink); margin-bottom: 1rem; }
+    .quick-nav-card h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+
+    @media (max-width: 600px) {
+      .quick-nav-grid { grid-template-columns: 1fr; gap: 1rem; }
+    }
 
     .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; margin: 3rem 0; }
     .feature-card {
@@ -169,16 +196,9 @@
       .nav-links.active { display: flex; }
       .auth-buttons { flex-direction: column; width: 100%; }
       .btn { width: 100%; justify-content: center; }
-      .hero-content { gap: 2rem; }
-      .hero-image { min-height: 220px; }
       .section-title { margin-bottom: 1.5rem; }
       .card-grid { gap: 1.2rem; }
       .form-card { padding: 1.8rem 1.2rem; }
-    }
-
-    @media (max-width: 480px) {
-      .logo-text { font-size: 1.2rem; }
-      .hero-text h1 { font-size: 2rem; }
     }
 
     .text-center { text-align: center; }
@@ -231,6 +251,27 @@
         <div class="hero-image"></div>
       </div>
     </section>
+
+    <!-- দ্রুত নেভিগেশন (হোম পেজ থেকে সরাসরি) -->
+    <div class="container">
+      <div class="quick-nav-grid">
+        <div class="quick-nav-card" onclick="navigateTo('gallery')">
+          <i class="fas fa-images"></i>
+          <h3>গ্যালারি</h3>
+          <p>স্মৃতির ছবি দেখুন</p>
+        </div>
+        <div class="quick-nav-card" onclick="navigateTo('magazine')">
+          <i class="fas fa-book-open"></i>
+          <h3>ম্যাগাজিন</h3>
+          <p>সৃজনশীল লেখা পড়ুন</p>
+        </div>
+        <div class="quick-nav-card" onclick="navigateTo('eta')">
+          <i class="fas fa-lightbulb"></i>
+          <h3>ইটিএ</h3>
+          <p>সায়েন্স ফেয়ার ও বক্তৃতা</p>
+        </div>
+      </div>
+    </div>
 
     <div class="container">
       <h2 class="section-title">আমাদের ডিজিটাল ক্যাম্পাস</h2>
@@ -298,7 +339,6 @@
 
 <script>
   (function() {
-    // ---------- কনফিগারেশন ----------
     const SUPABASE_URL = 'https://jpnwdfdpbwgoqpwmvgkl.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwbndkZmRwYndnb3Fwd212Z2tsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3OTU2NDMsImV4cCI6MjA5MjM3MTY0M30.Hn_a1czvgM2httKGUWux0NT4yqiBfvnSOEvK5NJ0gvk';
     
@@ -311,7 +351,6 @@
     
     let currentUser = null, currentProfile = null;
 
-    // Mobile menu toggle
     document.getElementById('menuToggle').addEventListener('click', ()=>{
       document.getElementById('navLinks').classList.toggle('active');
     });
@@ -389,21 +428,13 @@
       document.getElementById('authForm').style.display = 'none';
       document.getElementById('forgotPasswordForm').style.display = 'block';
     });
-    document.getElementById('backToLoginLink').addEventListener('click', e=>{
-      e.preventDefault();
-      openAuth('login');
-    });
+    document.getElementById('backToLoginLink').addEventListener('click', e=>{ e.preventDefault(); openAuth('login'); });
     document.getElementById('sendResetLinkBtn').addEventListener('click', async ()=>{
       const email = document.getElementById('resetEmail').value;
       if (!email) return alert('ইমেইল দিন');
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.origin + '/?reset=true'
-      });
+      const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + '/?reset=true' });
       if (error) alert('ত্রুটি: ' + error.message);
-      else {
-        alert('পাসওয়ার্ড রিসেট লিংক আপনার ইমেইলে পাঠানো হয়েছে।');
-        closeAuthModal();
-      }
+      else { alert('পাসওয়ার্ড রিসেট লিংক আপনার ইমেইলে পাঠানো হয়েছে।'); closeAuthModal(); }
     });
 
     document.getElementById('authForm').addEventListener('submit', async e=>{
@@ -486,7 +517,6 @@
     async function loadProfile() {
       if(!currentUser) return navigateTo('home');
       document.getElementById('profileInfo').innerHTML = `<p><strong>নাম:</strong> ${currentProfile.name}</p><p><strong>ইমেইল:</strong> ${currentUser.email}</p><p><strong>ফোন:</strong> ${currentProfile.phone || 'N/A'}</p><p><strong>রোল:</strong> ${currentProfile.role}</p>`;
-      // ✅ শুধু সর্বশেষ ২টি নোটিফিকেশন
       const { data: notifs } = await supabase.from('notifications').select('*').eq('user_id', currentUser.id).order('created_at', {ascending:false}).limit(2);
       document.getElementById('notifList').innerHTML = notifs?.map(n=>`<p>🔔 ${n.message} <small>${new Date(n.created_at).toLocaleString()}</small></p>`).join('') || '<p>কোনো নোটিফিকেশন নেই</p>';
     }
@@ -500,32 +530,10 @@
         container.innerHTML = data?.map(i=>`<div class="pending-item"><div><img src="${i.image_url}" width="50"> ${i.caption} (${i.user_name})</div><button class="btn btn-primary btn-sm" onclick="approveItem('gallery',${i.id})">অনুমোদন</button></div>`).join('')||'<p>কোনো পেন্ডিং নেই</p>';
       } else if(activeAdminTab==='magazine') {
         const { data } = await supabase.from('magazine').select('*').eq('approved', false);
-        container.innerHTML = data?.map(m=>`<div class="pending-item" id="mag-${m.id}">
-          <div style="width:100%;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <div><strong>${m.title}</strong> by ${m.user_name}</div>
-              <div>
-                <button class="btn btn-outline btn-sm" onclick="toggleDetail('mag-${m.id}-detail')"><i class="fas fa-eye"></i> বিস্তারিত</button>
-                <button class="btn btn-primary btn-sm" onclick="approveItem('magazine',${m.id})">অনুমোদন</button>
-              </div>
-            </div>
-            <div id="mag-${m.id}-detail" class="detail-box" style="display:none;">${m.content.replace(/\n/g, '<br>')}</div>
-          </div>
-        </div>`).join('')||'<p>কোনো পেন্ডিং নেই</p>';
+        container.innerHTML = data?.map(m=>`<div class="pending-item" id="mag-${m.id}"><div style="width:100%;"><div style="display:flex; justify-content:space-between; align-items:center;"><div><strong>${m.title}</strong> by ${m.user_name}</div><div><button class="btn btn-outline btn-sm" onclick="toggleDetail('mag-${m.id}-detail')"><i class="fas fa-eye"></i> বিস্তারিত</button><button class="btn btn-primary btn-sm" onclick="approveItem('magazine',${m.id})">অনুমোদন</button></div></div><div id="mag-${m.id}-detail" class="detail-box" style="display:none;">${m.content.replace(/\n/g, '<br>')}</div></div></div>`).join('')||'<p>কোনো পেন্ডিং নেই</p>';
       } else if(activeAdminTab==='eta') {
         const { data } = await supabase.from('eta').select('*').eq('approved', false);
-        container.innerHTML = data?.map(e=>`<div class="pending-item" id="eta-${e.id}">
-          <div style="width:100%;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <div><strong>${e.type}</strong> by ${e.user_name} — ${e.content.substring(0,50)}...</div>
-              <div>
-                <button class="btn btn-outline btn-sm" onclick="toggleDetail('eta-${e.id}-detail')"><i class="fas fa-eye"></i> বিস্তারিত</button>
-                <button class="btn btn-primary btn-sm" onclick="approveItem('eta',${e.id})">অনুমোদন</button>
-              </div>
-            </div>
-            <div id="eta-${e.id}-detail" class="detail-box" style="display:none;">${e.content.replace(/\n/g, '<br>')}</div>
-          </div>
-        </div>`).join('')||'<p>কোনো পেন্ডিং নেই</p>';
+        container.innerHTML = data?.map(e=>`<div class="pending-item" id="eta-${e.id}"><div style="width:100%;"><div style="display:flex; justify-content:space-between; align-items:center;"><div><strong>${e.type}</strong> by ${e.user_name} — ${e.content.substring(0,50)}...</div><div><button class="btn btn-outline btn-sm" onclick="toggleDetail('eta-${e.id}-detail')"><i class="fas fa-eye"></i> বিস্তারিত</button><button class="btn btn-primary btn-sm" onclick="approveItem('eta',${e.id})">অনুমোদন</button></div></div><div id="eta-${e.id}-detail" class="detail-box" style="display:none;">${e.content.replace(/\n/g, '<br>')}</div></div></div>`).join('')||'<p>কোনো পেন্ডিং নেই</p>';
       } else if(activeAdminTab==='notification') {
         container.innerHTML = `<div class="form-card"><h3>🔔 সকলকে নোটিফিকেশন পাঠান</h3><textarea id="notifMsg" class="form-control" placeholder="আপনার মেসেজ লিখুন"></textarea><p class="field-hint" style="margin-top:8px;"><i class="fas fa-info-circle"></i> সবার প্রোফাইলে ইন-অ্যাপ নোটিফিকেশন জমা হবে।</p><button class="btn btn-primary w-100 mt-3" onclick="sendAdminNotification()"><i class="fas fa-bell"></i> নোটিফিকেশন পাঠান</button></div>`;
       } else if(activeAdminTab==='email') {
@@ -545,39 +553,26 @@
       loadAdminPanel();
     };
 
-    // ✅ নোটিফিকেশন পাঠানো
     window.sendAdminNotification = async ()=>{
       const msg = document.getElementById('notifMsg').value;
       if(!msg) return alert('মেসেজ লিখুন');
       const { data: users } = await supabase.from('profiles').select('id');
-      for(let u of users) {
-        await supabase.from('notifications').insert([{ user_id: u.id, message: `🔔 অ্যাডমিন: ${msg}` }]);
-      }
+      for(let u of users) await supabase.from('notifications').insert([{ user_id: u.id, message: `🔔 অ্যাডমিন: ${msg}` }]);
       alert('সকলকে নোটিফিকেশন পাঠানো হয়েছে');
     };
 
-    // ✅ ইমেইল পাঠানো
     window.sendEmailToAll = async ()=>{
       const msg = document.getElementById('emailMsg').value;
       if(!msg) return alert('মেসেজ লিখুন');
-      
       const { data: users } = await supabase.from('profiles').select('email, name, id');
       let successCount = 0, failCount = 0;
-      
       for(let u of users) {
         if(!u.email) continue;
         try {
-          await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-            to_email: u.email,
-            to_name: u.name || 'শিক্ষার্থী/শিক্ষক',
-            message: msg
-          });
+          await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, { to_email: u.email, to_name: u.name || 'শিক্ষার্থী/শিক্ষক', message: msg });
           successCount++;
           await supabase.from('notifications').insert([{ user_id: u.id, message: `📧 ইমেইল পাঠানো হয়েছে: ${msg}` }]);
-        } catch(e) {
-          console.error('ইমেইল ত্রুটি:', u.email, e);
-          failCount++;
-        }
+        } catch(e) { console.error('ইমেইল ত্রুটি:', u.email, e); failCount++; }
       }
       alert(`📧 ইমেইল রিপোর্ট:\n✅ সফল: ${successCount}\n❌ ব্যর্থ: ${failCount}`);
     };
