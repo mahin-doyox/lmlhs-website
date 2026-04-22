@@ -260,7 +260,7 @@
   <div id="magazine" class="page"><div class="container" style="padding:2rem 0;"><h2 class="section-title">স্মার্ট ম্যাগাজিন</h2><div id="magazineUpload"></div><div id="magazineGrid" class="masonry-grid"></div></div></div>
   <div id="eta" class="page"><div class="container" style="padding:2rem 0;"><h2 class="section-title">ইটিএ - এক্সট্রা কারিকুলার</h2><div id="etaUpload"></div><div id="etaGrid"></div></div></div>
   <div id="profile" class="page"><div class="form-card"><h2>আমার প্রোফাইল</h2><div id="profileInfo"></div><h3 style="margin-top:2rem;">নোটিফিকেশন</h3><div id="notifList"></div></div></div>
-  <div id="admin" class="page"><div class="container" style="padding:2rem 0;"><h2 class="section-title">অ্যাডমিন প্যানেল</h2><div class="admin-tabs"><button class="admin-tab active" data-tab="gallery">গ্যালারি</button><button class="admin-tab" data-tab="magazine">ম্যাগাজিন</button><button class="admin-tab" data-tab="eta">ইটিএ</button><button class="admin-tab" data-tab="email">📧 ইমেইল পাঠান</button></div><div id="adminContent"></div></div></div>
+  <div id="admin" class="page"><div class="container" style="padding:2rem 0;"><h2 class="section-title">অ্যাডমিন প্যানেল</h2><div class="admin-tabs"><button class="admin-tab active" data-tab="gallery">গ্যালারি</button><button class="admin-tab" data-tab="magazine">ম্যাগাজিন</button><button class="admin-tab" data-tab="eta">ইটিএ</button><button class="admin-tab" data-tab="notification">🔔 নোটিফিকেশন</button><button class="admin-tab" data-tab="email">📧 ইমেইল পাঠান</button></div><div id="adminContent"></div></div></div>
 </main>
 
 <div id="authModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); backdrop-filter: blur(8px); z-index:2000; align-items:center; justify-content:center; padding:1rem;">
@@ -276,7 +276,7 @@
         <input type="tel" id="authPhone" class="form-control" placeholder="+8801XXXXXXXXX">
         <div class="field-hint"><i class="fas fa-info-circle"></i> আন্তর্জাতিক ফরম্যাট: +8801XXXXXXXXX</div>
       </div>
-      <div class="form-group" id="roleField" style="display:none;"><label>রোল</label><select id="authRole" class="form-control"><option value="student">ছাত্র (এসএসসি ২৫)</option><option value="teacher">শিক্ষক</option></select></div>
+      <div class="form-group" id="roleField" style="display:none;"><label>রোল</label><select id="authRole" class="form-control"><option value="student">ছাত্র</option><option value="teacher">শিক্ষক</option></select></div>
       <button type="submit" class="btn btn-primary w-100">সাবমিট</button>
     </form>
     <p style="margin-top:1.5rem; text-align:center;">
@@ -294,7 +294,7 @@
   </div>
 </div>
 
-<footer><p>© ২০২৬ লাহিড়ী বহুমুখী উচ্চ বিদ্যালয় • Powered by LMLHS forum • সর্বস্বত্ব সংরক্ষিত</p></footer>
+<footer><p>© ২০২৬ লাহিড়ী বহুমুখী উচ্চ বিদ্যালয় • Powered by the innovators of LMLHS • সর্বস্বত্ব সংরক্ষিত</p></footer>
 
 <script>
   (function() {
@@ -486,7 +486,7 @@
     async function loadProfile() {
       if(!currentUser) return navigateTo('home');
       document.getElementById('profileInfo').innerHTML = `<p><strong>নাম:</strong> ${currentProfile.name}</p><p><strong>ইমেইল:</strong> ${currentUser.email}</p><p><strong>ফোন:</strong> ${currentProfile.phone || 'N/A'}</p><p><strong>রোল:</strong> ${currentProfile.role}</p>`;
-      // ✅ শুধু সর্বশেষ ২টি নোটিফিকেশন দেখাবে
+      // ✅ শুধু সর্বশেষ ২টি নোটিফিকেশন
       const { data: notifs } = await supabase.from('notifications').select('*').eq('user_id', currentUser.id).order('created_at', {ascending:false}).limit(2);
       document.getElementById('notifList').innerHTML = notifs?.map(n=>`<p>🔔 ${n.message} <small>${new Date(n.created_at).toLocaleString()}</small></p>`).join('') || '<p>কোনো নোটিফিকেশন নেই</p>';
     }
@@ -526,12 +526,13 @@
             <div id="eta-${e.id}-detail" class="detail-box" style="display:none;">${e.content.replace(/\n/g, '<br>')}</div>
           </div>
         </div>`).join('')||'<p>কোনো পেন্ডিং নেই</p>';
+      } else if(activeAdminTab==='notification') {
+        container.innerHTML = `<div class="form-card"><h3>🔔 সকলকে নোটিফিকেশন পাঠান</h3><textarea id="notifMsg" class="form-control" placeholder="আপনার মেসেজ লিখুন"></textarea><p class="field-hint" style="margin-top:8px;"><i class="fas fa-info-circle"></i> সবার প্রোফাইলে ইন-অ্যাপ নোটিফিকেশন জমা হবে।</p><button class="btn btn-primary w-100 mt-3" onclick="sendAdminNotification()"><i class="fas fa-bell"></i> নোটিফিকেশন পাঠান</button></div>`;
       } else if(activeAdminTab==='email') {
-        container.innerHTML = `<div class="form-card"><h3>📧 সকলকে ইমেইল পাঠান</h3><textarea id="emailMsg" class="form-control" placeholder="আপনার মেসেজ লিখুন"></textarea><p class="field-hint" style="margin-top:8px;"><i class="fas fa-info-circle"></i> প্রতিটি ইউজারের ইমেইলে এই মেসেজ পাঠানো হবে।</p><button class="btn btn-primary w-100 mt-3" onclick="sendEmailToAll()"><i class="fas fa-envelope"></i> ইমেইল পাঠান</button></div>`;
+        container.innerHTML = `<div class="form-card"><h3>📧 সকলকে ইমেইল পাঠান</h3><textarea id="emailMsg" class="form-control" placeholder="আপনার মেসেজ লিখুন"></textarea><p class="field-hint" style="margin-top:8px;"><i class="fas fa-info-circle"></i> প্রতিটি ইউজারের ইমেইলে এই মেসেজ পাঠানো হবে (EmailJS)।</p><button class="btn btn-primary w-100 mt-3" onclick="sendEmailToAll()"><i class="fas fa-envelope"></i> ইমেইল পাঠান</button></div>`;
       }
     }
 
-    // ✅ বিস্তারিত টগল করার ফাংশন
     window.toggleDetail = (id) => {
       const el = document.getElementById(id);
       if(el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
@@ -544,6 +545,18 @@
       loadAdminPanel();
     };
 
+    // ✅ নোটিফিকেশন পাঠানো
+    window.sendAdminNotification = async ()=>{
+      const msg = document.getElementById('notifMsg').value;
+      if(!msg) return alert('মেসেজ লিখুন');
+      const { data: users } = await supabase.from('profiles').select('id');
+      for(let u of users) {
+        await supabase.from('notifications').insert([{ user_id: u.id, message: `🔔 অ্যাডমিন: ${msg}` }]);
+      }
+      alert('সকলকে নোটিফিকেশন পাঠানো হয়েছে');
+    };
+
+    // ✅ ইমেইল পাঠানো
     window.sendEmailToAll = async ()=>{
       const msg = document.getElementById('emailMsg').value;
       if(!msg) return alert('মেসেজ লিখুন');
