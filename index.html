@@ -31,13 +31,6 @@
 
     @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes float { 0% { transform: translateY(0); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0); } }
-    /* অ্যানিমেশন সতর্ক বার্তার জন্য */
-    @keyframes slideDown {
-      0% { opacity: 0; transform: translateY(-100%); }
-      10% { opacity: 1; transform: translateY(0); }
-      90% { opacity: 1; transform: translateY(0); }
-      100% { opacity: 0; transform: translateY(-100%); }
-    }
     @keyframes pulseWarning {
       0%, 100% { background-color: #fff3cd; border-color: #ffecb5; }
       50% { background-color: #ffe69c; border-color: #ffd970; }
@@ -130,7 +123,7 @@
     .auth-buttons { display: flex; gap: 12px; }
     .menu-toggle { display: none; background: none; border: none; font-size: 1.8rem; color: var(--navy); cursor: pointer; }
 
-    /* ---------- হিরো সেকশন ---------- */
+    /* হিরো সেকশন */
     .hero {
       background: linear-gradient(145deg, #fdf2f8 0%, #fff 80%); padding: 3rem 5%;
       border-radius: 0 0 60px 60px; margin-bottom: 1rem; border-bottom: var(--border-light);
@@ -148,7 +141,6 @@
     }
     .hero-image:hover { transform: scale(1.01); }
 
-    /* মোবাইলে হিরো স্ট্যাকিং */
     @media (max-width: 768px) {
       .hero-content { flex-direction: column-reverse; gap: 1.5rem; }
       .hero-text { text-align: center; }
@@ -277,7 +269,7 @@
 
 <!-- সতর্ক বার্তা -->
 <div id="warningBanner" class="warning-banner">
-  <span><i class="fas fa-exclamation-triangle"></i> This app is now on testing process under vercel domain.If the users give interests,We will work on custome domain. এটি লাহিড়ী বহুমুখী উচ্চ বিদ্যালয়ের অফিসিয়াল ওয়েবসাইট নয়। অফিসিয়াল সাইট: <a href="https://www.lmlhs.edu.bd" target="_blank">www.lmlhs.edu.bd</a></span>
+  <span><i class="fas fa-exclamation-triangle"></i> This app is now on testing process under vercel domain. If the users give interests, we will work on custom domain. এটি লাহিড়ী বহুমুখী উচ্চ বিদ্যালয়ের অফিসিয়াল ওয়েবসাইট নয়। অফিসিয়াল সাইট: <a href="https://www.lmlhs.edu.bd" target="_blank">www.lmlhs.edu.bd</a></span>
   <button class="close-warning" onclick="document.getElementById('warningBanner').style.display='none'"><i class="fas fa-times"></i></button>
 </div>
 
@@ -483,6 +475,7 @@
       else { alert('পাসওয়ার্ড রিসেট লিংক আপনার ইমেইলে পাঠানো হয়েছে।'); closeAuthModal(); }
     });
 
+    // ✅ রেজিস্ট্রেশনে email ফিল্ড সংরক্ষণ
     document.getElementById('authForm').addEventListener('submit', async e=>{
       e.preventDefault();
       const email = document.getElementById('authEmail').value, password = document.getElementById('authPassword').value;
@@ -491,8 +484,9 @@
         const { data, error } = await supabase.auth.signUp({ email, password });
         if(error) return alert('রেজিস্ট্রেশন ত্রুটি: '+error.message);
         if(data.user) {
-          await supabase.from('profiles').insert([{ id: data.user.id, name, phone, role }]);
-          alert('রেজিস্ট্রেশন সফল! এখন লগইন করুন।'); closeAuthModal();
+          // ✅ email ফিল্ড যোগ করা হয়েছে
+          await supabase.from('profiles').insert([{ id: data.user.id, name, phone, role, email }]);
+          alert('রেজিস্ট্রেশন সফল! এখন লগইন করুন.'); closeAuthModal();
         }
       } else {
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
@@ -607,18 +601,31 @@
       alert('সকলকে নোটিফিকেশন পাঠানো হয়েছে');
     };
 
+    // ✅ ইমেইল পাঠানোর ফাংশন (profiles টেবিল থেকে email পড়বে)
     window.sendEmailToAll = async ()=>{
       const msg = document.getElementById('emailMsg').value;
       if(!msg) return alert('মেসেজ লিখুন');
-      const { data: users } = await supabase.from('profiles').select('email, name, id');
+      const { data: users, error } = await supabase.from('profiles').select('email, name, id');
+      if (error) {
+        console.error('Supabase error:', error);
+        return alert('ইউজার ডাটা আনতে সমস্যা হয়েছে।');
+      }
+      if (!users || users.length === 0) return alert('কোনো ইউজার পাওয়া যায়নি।');
       let successCount = 0, failCount = 0;
       for(let u of users) {
         if(!u.email) continue;
         try {
-          await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, { to_email: u.email, to_name: u.name || 'শিক্ষার্থী/শিক্ষক', message: msg });
+          await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, { 
+            to_email: u.email, 
+            to_name: u.name || 'শিক্ষার্থী/শিক্ষক', 
+            message: msg 
+          });
           successCount++;
           await supabase.from('notifications').insert([{ user_id: u.id, message: `📧 ইমেইল পাঠানো হয়েছে: ${msg}` }]);
-        } catch(e) { console.error('ইমেইল ত্রুটি:', u.email, e); failCount++; }
+        } catch(e) { 
+          console.error('ইমেইল ত্রুটি:', u.email, e); 
+          failCount++; 
+        }
       }
       alert(`📧 ইমেইল রিপোর্ট:\n✅ সফল: ${successCount}\n❌ ব্যর্থ: ${failCount}`);
     };
